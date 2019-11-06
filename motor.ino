@@ -1,12 +1,13 @@
-//Programa : Controle 2 motores DC usando Ponte H L298N
-//Autor : FILIPEFLOP
- 
+//--------------------------------------------------------
+// Programa : Controle dos motores do robo e servomotor
+// Autor : Steam4Girls
+//--------------------------------------------------------
+
 //Definicoes pinos Arduino ligados a entrada da Ponte H
 int IN1 = 4;
 int IN2 = 5;
 int IN3 = 6;
 int IN4 = 7;
-
   
 void setup()
 {
@@ -17,22 +18,28 @@ void setup()
  pinMode(IN4, OUTPUT);
  Serial.begin(9600);
 }
-  
-void loop()
+
+void loop(){
+
+  frente();
+  delay(1000);
+  parar();
+  fim();
+}
+
+void frente()
 {
- Serial.println("Gira o Motor A no sentido horario");
  digitalWrite(IN1, LOW);
  digitalWrite(IN2, HIGH);
- Serial.println("Gira o Motor B no sentido antihorario");
  digitalWrite(IN3, HIGH);
  digitalWrite(IN4, LOW);
- delay(2000);
- Serial.println("Para o motor B");
+}
+void parar(){
  digitalWrite(IN3, HIGH);
  digitalWrite(IN4, HIGH);
- Serial.println("Para o motor A");
  digitalWrite(IN1, HIGH);
  digitalWrite(IN2, HIGH);
- delay(500);
-
+}
+void fim(){
+  while(1);
 }
