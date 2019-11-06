@@ -1,6 +1,6 @@
 //--------------------------------------------------------
-//Programa : Controle dos motores do robo
-//Autor : Carlos Jr
+// Programa : Controle dos motores do robo e sensor de ultrassom
+// Autor : Steam4Girls
 //--------------------------------------------------------
 
 // Inclui a biblioteca do Servomotor
