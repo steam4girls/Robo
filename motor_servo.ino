@@ -1,5 +1,8 @@
-//Programa : Controle 2 motores DC usando Ponte H L298N
-//Autor : Carlos Jr
+//--------------------------------------------------------
+// Programa : Controle dos motores do robo e servomotor
+// Autor : Steam4Girls
+//--------------------------------------------------------
+
 
 #include <Servo.h>
 // Cria servomotor
