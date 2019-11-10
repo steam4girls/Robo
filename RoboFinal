@@ -1,0 +1,123 @@
+//--------------------------------------------------------
+// Programa : Controle dos motores do robo e sensor de ultrassom
+// Autor : Steam4Girls
+//--------------------------------------------------------
+
+//Inclui a biblioteca do Servomotor
+#include <Servo.h>
+//Inclui a biblioteca do Ultrassom
+#include <HCSR04.h>
+
+// Cria servomotor
+Servo myservo; 
+
+// Conecta o Ultrassom aos pinos (TRIGGER, ECO)
+UltraSonicDistanceSensor distanceSensor(13, 12);  // Initialize sensor that uses digital pins 13 and 12.
+
+
+//Definicoes pinos Arduino ligados a entrada da Ponte H
+int IN1 = 4;
+int IN2 = 5;
+int IN3 = 6;
+int IN4 = 7;
+int SERVO = 9;
+int pos; // Posição Servo
+int obstaculoDetectado;
+int aux;
+
+  
+void setup()
+{
+  //Define os pinos como saida
+ Serial.begin(9600);
+ Serial.println("Lendo dados do sensor...");
+ pinMode(IN1, OUTPUT);
+ pinMode(IN2, OUTPUT);
+ pinMode(IN3, OUTPUT);
+ pinMode(IN4, OUTPUT);
+ myservo.attach(SERVO);
+ myservo.write(90);
+ 
+}
+
+void loop(){
+ Serial.println("Motor em movimento");
+  Frente();
+  obstaculoDetectado = ultrassom();
+  if(obstaculoDetectado < 30){
+      pararMotor();
+      tomadaDecisao(obstaculoDetectado);
+  } 
+}
+
+float ultrassom(){
+  int distancia = 0;
+  distancia = distanceSensor.measureDistanceCm();
+  Serial.println(distanceSensor.measureDistanceCm());
+  return distancia;
+}
+void motorfrente()
+{
+ digitalWrite(IN1, LOW);
+ digitalWrite(IN2, HIGH);
+ digitalWrite(IN3, HIGH);
+ digitalWrite(IN4, LOW);
+}
+void motorparar(){
+ digitalWrite(IN3, HIGH);
+ digitalWrite(IN4, HIGH);
+ digitalWrite(IN1, HIGH);
+ digitalWrite(IN2, HIGH);
+}
+void motordireita()
+{
+ digitalWrite(IN1, LOW);
+ digitalWrite(IN2, HIGH);
+ digitalWrite(IN3, LOW);
+ digitalWrite(IN4, HIGH);
+}
+void motoresquerda()
+{
+ digitalWrite(IN1, HIGH);
+ digitalWrite(IN2, LOW);
+ digitalWrite(IN3, HIGH);
+ digitalWrite(IN4, LOW);
+}
+void olharFren()             //Posiciona o servo em 90 graus
+{
+   myservo.write(90);
+}
+void olharEsq()              //Posiciona o servo em 0 graus
+{
+  myservo.write(0);
+}
+void olharDir()             //Posiciona o servo em 180 graus
+{
+  myservo.write(180);
+}
+void tomadaDecisao(int obstaculo){
+  Serial.print("Motor parado obstaculo a: ");
+      Serial.print(obstaculo);
+      Serial.println("cm");
+      olharEsq();    //move o servo para a posição 0º por 2 segundos
+      delay(2000);
+      obstaculo = ultrassom();
+      olharFren();    //move o servo para a posição 90º por 2 segundos
+      delay(2000);
+      if(obstaculo > 30){
+        Serial.println("Virar robo para esquerda ");
+        motoresquerda();
+      }else{
+         olharDir();    //move o servo para a posição 180º por 2 segundos
+         delay(2000);
+         aux = ultrassom();
+         olharFren();    //move o servo para a posição 90º por 2 segundos
+         if(aux>30){
+            Serial.println("Virar robo para direita ");
+            motordireita();
+         }else if(obstaculo>aux){
+          Serial.println("Virar robo para esquerda ");
+          motoresquerda();
+         }
+      }
+}
