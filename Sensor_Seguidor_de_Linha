@@ -1,0 +1,13 @@
+  void setup(){  
+  pinMode(8, INPUT); //DEFINE O PINO COMO ENTRADA
+  pinMode(12, OUTPUT); //DEFINE O PINO COMO SAÍDA   
+  digitalWrite(12, LOW); //LED INICIA DESLIGADO
+}  
+   
+void loop(){
+  if (digitalRead(8) == LOW){ //SE A LEITURA DO PINO FOR IGUAL A LOW, FAZ
+        digitalWrite(12, HIGH); //ACENDE O LED
+  }else{//SENÃO, FAZ
+        digitalWrite(12, LOW); //apaga O LED
+  }    
+}
