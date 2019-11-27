@@ -5,8 +5,8 @@ int IN3 = 6;
 int IN4 = 7; 
 
 
-#define Sensor_direita 12
-#define Sensor_esquerda 13
+#define Sensor_direita 11
+#define Sensor_esquerda 12
  
 bool sens_direita, sens_esquerda;
  
@@ -32,17 +32,17 @@ void frente(){
    digitalWrite(IN4, LOW);
 }
 
-void esquerda(){
+void direita(){
    digitalWrite(IN1, LOW);
-   digitalWrite(IN2, HIGH);
+   digitalWrite(IN2, LOW);
    digitalWrite(IN3, LOW);
    digitalWrite(IN4, HIGH);
 }
 
-void direita(){
+void esquerda(){
    digitalWrite(IN1, HIGH);
    digitalWrite(IN2, LOW);
-   digitalWrite(IN3, HIGH);
+   digitalWrite(IN3, LOW);
    digitalWrite(IN4, LOW);
 }
 void parar(){
@@ -73,12 +73,12 @@ if(sens_direita == false && sens_esquerda == false){
 if(sens_direita == false && sens_esquerda == true){
   Serial.print("Direita");
   direita();
-  delay(50);
+  delay(100);
 }
 if(sens_direita == true && sens_esquerda == false){
   Serial.print("Esqueda");
   esquerda();
-  delay(50);
+  delay(100);
 }
 if(sens_direita == true && sens_esquerda == true){
   Serial.print("Parar");
